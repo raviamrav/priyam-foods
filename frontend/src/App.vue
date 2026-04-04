@@ -127,7 +127,7 @@ async function submitOrder() {
       </h1>
       <p class="text-center text-white mt-2 italic">
         South Indian Moms Special | Authentic Tastes & Flavors | Fresh
-        Ingredients | Homemade 100% | Order Now!
+        Ingredients | 100% Homemade | Order Now!
       </p>
     </header>
 
@@ -208,18 +208,13 @@ async function submitOrder() {
             <div
               class="bg-green-100 rounded-xl cursor-pointer hover:bg-green-200 transition items-center justify-center"
               @click="storeVCF"
-              title="Save Contact"
+              title="Save Store Contact"
             >
-              <div
-                class="bg-green-100 rounded-xl cursor-pointer hover:bg-green-200 transition"
-                @click="storeVCF"
-                title="Save Contact"
-              >
-                <img
-                  src="./assets/vcf.jpg"
-                  class="h-full max-h-[42px] object-contain"
-                />
-              </div>
+              <span class="text-xs">⬇️ Store</span>
+              <img
+                src="./assets/priyamfoods_vcf.jpg"
+                class="h-full w-full max-h-[40px] object-contain"
+              />
             </div>
           </div>
 
@@ -234,7 +229,18 @@ async function submitOrder() {
             placeholder="Full Delivery Address & Special requests (like delivery date/time, allergies, etc.)"
             class="w-full p-4 rounded-xl border-gray-200 border focus:ring-2 focus:ring-orange-500 outline-none h-32"
           ></textarea>
-
+          <div class="mt-5 mb-3 text-sm text-gray-600 italic">
+            <span class="font-bold text-red-500">* </span>
+            <span class="font-bold text-blue-500"
+              >Download our contact vCard</span
+            >
+            by clicking the WhatsApp icon. This will allow you to easily find us
+            on WhatsApp and place your order. After filling in your details and
+            selecting your items, click the "Send Order via WhatsApp" button to
+            send your order directly to our WhatsApp. We will confirm your order
+            and delivery details through WhatsApp. Thank you for choosing Priyam
+            Foods!
+          </div>
           <button
             @click="submitOrder"
             class="w-full py-5 bg-orange-600 hover:bg-orange-700 text-white text-xl font-bold rounded-2xl shadow-lg transform active:scale-95 transition-all"
