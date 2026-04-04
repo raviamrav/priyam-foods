@@ -99,8 +99,8 @@ async function submitOrder() {
   if (data.whatsapp_link) {
     const confirmOpen = confirm(
       "Your order is ready!\n\n" +
-        "Click with the WhatsApp icon to Add our contact to your WhatsApp contacts and continue.\n" +
-        "If the message disappears, copy it from below and paste manually:\n\n" +
+        "* Click with the WhatsApp icon to Add our contact to your WhatsApp contacts and continue.\n" +
+        "Copy the below order text (block and copy) and paste it manually in WhatsApp, incase If the message disappears/empty:\n=======\n" +
         data.message,
     );
     if (confirmOpen) {
@@ -113,112 +113,6 @@ async function submitOrder() {
   console.log(data);
 }
 </script>
-
-<!--
-<template>
-  <div class="text-center text-7xl font-bold text-purple-800 mt-20">
-    <p>Priyam Foods</p>
-    <br />
-  </div>
-
-  <table class="table-auto mx-auto text-left text-2xl mb-8">
-    <thead>
-      <tr>
-        <th class="px-4 py-2">Item</th>
-        <th class="px-4 py-2">Price €</th>
-        <th class="px-4 py-2">Quantity</th>
-      </tr>
-    </thead>
-    <tbody>
-      <template v-for="category in menu" :key="category.category">
-        <tr>
-          <td colspan="3" class="border px-4 py-2 font-bold text-3xl">
-            {{ category.category }}
-          </td>
-        </tr>
-        <tr
-          v-for="item in category.items"
-          :key="item.name"
-          :class="{ 'bg-green-100': item.quantity > 0 }"
-        >
-          <td class="border px-4 py-2">{{ item.name }}</td>
-          <td class="border px-4 py-2">{{ item.price }}</td>
-          <td class="border px-4 py-2">
-            <button
-              @click="item.quantity = Math.max(0, item.quantity - 1)"
-              class="px-3 py-1 bg-gray-300 text-white hover:bg-orange-500 rounded-lg transition"
-            >
-              -
-            </button>
-            <span class="mx-2">{{ item.quantity }}</span>
-            <button
-              @click="item.quantity = Math.max(0, item.quantity + 1)"
-              class="px-3 py-1 bg-gray-300 text-white hover:bg-green-500 rounded-lg transition"
-            >
-              +
-            </button>
-          </td>
-        </tr>
-      </template>
-    </tbody>
-  </table>
-
-  <table class="table-auto mx-auto text-left text-2xl mb-8">
-    <thead></thead>
-    <tbody>
-      <tr>
-        <td class="border px-4 py-2">
-          First Name: <input v-model="firstName" class="border p-2 w-full" />
-        </td>
-        <td class="border px-4 py-2">
-          Last Name: <input v-model="lastName" class="border p-2 w-full" />
-        </td>
-      </tr>
-      <tr>
-        <td class="border px-4 py-2">
-          Whatsapp:
-          <div class="w-full flex items-center">
-            <input
-              v-model="whatsapp"
-              type="tel"
-              required
-              pattern="[0-9]{8,15}"
-              placeholder="Enter your whatsapp number"
-              class="border p-2 flex-1 min-w-0"
-            /><img
-              src="./assets/vcf.jpg"
-              alt="Add store contact for whatsapp order"
-              title="*Add store contact for whatsapp order"
-              class="fit-image w-8 h-8 inline-block ml-2 cursor-pointer"
-              @click="storeVCF"
-            />
-          </div>
-        </td>
-        <td class="border px-4 py-2">
-          Email:
-          <input v-model="email" type="email" class="border p-2 w-full" />
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" class="border px-4 py-2">
-          Address: <input v-model="address" class="border p-2 w-full" />
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" class="align-middle border px-4 py-2 text-center">
-          <button
-            @click="submitOrder"
-            class="px-6 py-3 bg-blue-500 text-white hover:bg-blue-700 rounded-lg transition"
-          >
-            Submit Order
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</template>
-<style></style>
--->
 
 <template>
   <div class="min-h-screen bg-orange-50 pb-20 font-sans">
@@ -309,14 +203,23 @@ async function submitOrder() {
               v-model="whatsapp"
               type="tel"
               placeholder="WhatsApp Number"
-              class="flex-1 p-4 rounded-xl border-gray-200 border focus:ring-2 focus:ring-orange-500 outline-none"
+              class="flex-1 min-w-0 p-4 rounded-xl border-gray-200 border focus:ring-2 focus:ring-orange-500 outline-none"
             />
             <div
-              class="bg-green-100 p-3 rounded-xl cursor-pointer hover:bg-green-200 transition"
+              class="bg-green-100 rounded-xl cursor-pointer hover:bg-green-200 transition items-center justify-center"
               @click="storeVCF"
               title="Save Contact"
             >
-              <img src="./assets/vcf.jpg" class="w-8 h-8 rounded-md" />
+              <div
+                class="bg-green-100 rounded-xl cursor-pointer hover:bg-green-200 transition"
+                @click="storeVCF"
+                title="Save Contact"
+              >
+                <img
+                  src="./assets/vcf.jpg"
+                  class="h-full max-h-[42px] object-contain"
+                />
+              </div>
             </div>
           </div>
 
@@ -328,7 +231,7 @@ async function submitOrder() {
           />
           <textarea
             v-model="address"
-            placeholder="Full Delivery Address"
+            placeholder="Full Delivery Address & Special requests (like delivery date/time, allergies, etc.)"
             class="w-full p-4 rounded-xl border-gray-200 border focus:ring-2 focus:ring-orange-500 outline-none h-32"
           ></textarea>
 

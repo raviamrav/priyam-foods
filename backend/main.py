@@ -122,9 +122,9 @@ def generate_whatsapp_message(order_details, customer: Customer):
         message += f"{item['quantity']} x {item['item']} | {item['quantity']} x ${item['price']:.2f} = ${item['total']:.2f}\n"
     message += f"Total Price: ${order_details['total_price']:.2f}\n\n"
     message += f"🧾 *Name: {customer.first_name} {customer.last_name}*\n"
-    message += f"🏠 Address: {customer.address}\n"
+    message += f"📞 WhatsApp: {customer.whatsapp_number}\n\n"
     message += f"📧 Email: {customer.email}\n"
-    message += f"📞 WhatsApp: {customer.whatsapp_number}\n\n"    
+    message += f"🏠 Address: {customer.address}\n"
     return message
 
 def generate_whatsapp_link(number, message):
