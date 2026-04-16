@@ -19,20 +19,30 @@ interface MenuCategory {
 }
 
 const menu = ref<MenuCategory[]>([]);
+const isLoading = ref(true);
 
 onMounted(async () => {
-  // const response = await fetch(`${import.meta.env.VITE_API_URL}/menu`)
-  const response = await fetch(`${(window as any).APP_CONFIG.API_URL}/menu`);
-  const menuData = await response.json();
+  isLoading.value = true;
 
-  menu.value = menuData.map((category: any) => ({
-    category: category.category,
-    items: category.items.map((item: any) => ({
-      name: item.name,
-      price: Number(item.price),
-      quantity: 0,
-    })),
-  }));
+  try {
+    // const response = await fetch(`${import.meta.env.VITE_API_URL}/menu`)
+    const response = await fetch(`${(window as any).APP_CONFIG.API_URL}/menu`);
+    const menuData = await response.json();
+
+    menu.value = menuData.map((category: any) => ({
+      category: category.category,
+      items: category.items.map((item: any) => ({
+        name: item.name,
+        price: Number(item.price),
+        quantity: 0,
+      })),
+    }));
+  } catch (error) {
+    console.error("Error fetching menu:", error);
+    alert("Failed to load menu. Please try again later.");
+  } finally {
+    isLoading.value = false;
+  }
 });
 
 async function storeVCF() {
@@ -117,61 +127,64 @@ async function submitOrder() {
 <template>
   <div class="min-h-screen bg-orange-50 pb-20 font-sans">
     <!-- Hero Header -->
-    <header
-      class="bg-blue-800 shadow-sm py-10 mb-8 border-b-4 border-orange-500"
-    >
-      <h1
-        class="text-5xl md:text-7xl font-black text-green-600 text-center uppercase tracking-tighter"
-      >
+    <header class="bg-blue-800 shadow-sm py-10 mb-8 border-b-4 border-orange-500">
+      <h1 class="text-5xl md:text-7xl font-black text-green-600 text-center uppercase tracking-tighter">
         Priyam Foods
       </h1>
       <p class="text-center text-white mt-2 italic">
-        South Indian Moms Special | Authentic Tastes & Flavors | Fresh
-        Ingredients | 100% Homemade | Order Now!
+        South Indian Moms Special | Authentic Tastes & Flavors | 100% Homemade | Fresh
+        Ingredients | Order Now!
       </p>
     </header>
 
     <div class="max-w-4xl mx-auto px-4">
       <!-- Menu Sections -->
-      <div v-for="category in menu" :key="category.category" class="mb-10">
-        <h2
-          class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-orange-500 pl-3"
-        >
-          {{ category.category }}
-        </h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div
-            v-for="item in category.items"
-            :key="item.name"
-            :class="[
-              'p-4 rounded-2xl border-2 transition-all duration-300 flex justify-between items-center bg-white shadow-sm',
-              item.quantity > 0
-                ? 'border-green-500 bg-green-50'
-                : 'border-transparent hover:border-orange-200',
-            ]"
+      
+      <div v-if="isLoading" class="flex flex-col items-center justify-center py-20">
+        <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-orange-500 mb-4"></div>
+        <p class="text-xl font-semibold text-gray-600">Loading menu...</p>
+      </div>
+      <div v-else>
+        <div v-for="category in menu" :key="category.category" class="mb-10">
+          <h2
+            class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-orange-500 pl-3"
           >
-            <div>
-              <h3 class="font-bold text-lg text-gray-800">{{ item.name }}</h3>
-              <p class="text-orange-600 font-semibold">
-                €{{ item.price.toFixed(2) }}
-              </p>
-            </div>
+            {{ category.category }}
+          </h2>
 
-            <div class="flex items-center gap-3 bg-gray-100 rounded-full p-1">
-              <button
-                @click="item.quantity = Math.max(0, item.quantity - 1)"
-                class="w-8 h-8 rounded-full bg-white shadow flex items-center justify-center hover:bg-orange-500 hover:text-white transition"
-              >
-                -
-              </button>
-              <span class="w-6 text-center font-bold">{{ item.quantity }}</span>
-              <button
-                @click="item.quantity++"
-                class="w-8 h-8 rounded-full bg-white shadow flex items-center justify-center hover:bg-green-500 hover:text-white transition"
-              >
-                +
-              </button>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              v-for="item in category.items"
+              :key="item.name"
+              :class="[
+                'p-4 rounded-2xl border-2 transition-all duration-300 flex justify-between items-center bg-white shadow-sm',
+                item.quantity > 0
+                  ? 'border-green-500 bg-green-50'
+                  : 'border-transparent hover:border-orange-200',
+              ]"
+            >
+              <div>
+                <h3 class="font-bold text-lg text-gray-800">{{ item.name }}</h3>
+                <p class="text-orange-600 font-semibold">
+                  €{{ item.price.toFixed(2) }}
+                </p>
+              </div>
+
+              <div class="flex items-center gap-3 bg-gray-100 rounded-full p-1">
+                <button
+                  @click="item.quantity = Math.max(0, item.quantity - 1)"
+                  class="w-8 h-8 rounded-full bg-white shadow flex items-center justify-center hover:bg-orange-500 hover:text-white transition"
+                >
+                  -
+                </button>
+                <span class="w-6 text-center font-bold">{{ item.quantity }}</span>
+                <button
+                  @click="item.quantity++"
+                  class="w-8 h-8 rounded-full bg-white shadow flex items-center justify-center hover:bg-green-500 hover:text-white transition"
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
         </div>
