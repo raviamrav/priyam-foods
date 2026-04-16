@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://priyamfoods.vercel.app/sitemap.xml

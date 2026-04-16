@@ -5,7 +5,54 @@
     <script src="/config.js"></script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+
+    <!-- SEO: Title & Description -->
+    <title>Priyam Foods – Order Food via WhatsApp | Home Delivery</title>
+    <meta name="description" content="Priyam Foods offers homemade fresh home-cooked meals & Ready-to-eat. Browse our menu and place your order directly via WhatsApp. Fast delivery, easy ordering." />
+    <meta name="keywords" content="Priyam Foods, Homemade South Indian food Riesa, Biriyani, Podi, thokku, Idli Daosa Batter, WhatsApp food order Dresden, home cooked meals Leipzig, food delivery Chemnitz, Saxony Indian food" />
+    <meta name="author" content="Ravivarma Singaravelu - Priyam Foods" />
+
+    <!-- Open Graph (for Google & social sharing previews) -->
+    <meta property="og:title" content="Priyam Foods – Order Food via WhatsApp" />
+    <meta property="og:description" content="Browse our menu and place your food order directly via WhatsApp. Fresh meals, fast delivery." />
+    <meta property="og:url" content="https://priyamfoods.vercel.app" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://priyamfoods.vercel.app/icons.svg" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://priyamfoods.vercel.app/" />
+
+    <!-- Structured Data (Restaurant schema for Google rich results) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FoodEstablishment",
+      "name": "Priyam Foods",
+      "description": "Order fresh home-cooked meals via WhatsApp. Delivering in Riesa, Dresden, Leipzig and Chemnitz.",
+      "url": "https://priyamfoods.vercel.app",
+      "telephone": "+4915207287460",
+      "email": "raviarmav@yahoo.com",
+      "servesCuisine": "Indian",
+      "hasMenu": "https://priyamfoods.vercel.app",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "orders",
+        "telephone": "+4915207287460"
+      }
+      "areaServed": [
+        { "@type": "City", "name": "Riesa" },
+        { "@type": "City", "name": "Dresden" },
+        { "@type": "City", "name": "Leipzig" },
+        { "@type": "City", "name": "Chemnitz" }
+      ],
+      "address": {
+        "@type": "Heinrich-Heine-Str. 7, 01589",
+        "addressLocality": "Riesa",
+        "addressRegion": "Saxony",
+        "addressCountry": "DE"
+      }      
+    }
+    </script>
   </head>
   <body>
     <div id="app"></div>
