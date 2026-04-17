@@ -22,7 +22,7 @@ This project demonstrates integration of frontend, backend, and third-party comm
 - Backend: FastAPI (Python)
 - Deployment: Render (Backend), Vercel (Frontend)
 - Tools: Docker, Git, GitHub
-
+- Swagger/OpenAPI - https://priyamfoods-backend.onrender.com/docs
 ---
 
 ## Features
