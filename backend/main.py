@@ -11,6 +11,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:4173",      # local dev
+        "http://localhost:5173",      # local dev vite - 5173 or 5174
         "http://localhost:5174",      # local dev vite
         "https://priyamfoods.vercel.app",  # Vercel URL
     ],
@@ -94,6 +95,9 @@ def create_order(items):
         "total_price": total_price
     }
 
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
 
 @app.get("/menu")
 def get_menu():
