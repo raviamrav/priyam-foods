@@ -283,6 +283,7 @@ async function submitOrder() {
             This project is a non-commercial portfolio piece used to demonstrate 
             Full-Stack Engineering skills.
           </p>
+          <p>Check out my <a href="https://convocation-gown-system.vercel.app/" class="text-blue-500 hover:underline" target="_blank">Convocation Gown Rental System</a></p>
         </div>
       </div>
     </footer>
