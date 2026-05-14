@@ -11,7 +11,7 @@ A simple fullstack food ordering web application where users can:
 - Browse menu
 - Select items and quantity
 - Enter delivery details
-- Send order via WhatsApp to admin
+- Send order via WhatsApp / Telegram to admin
 
 This project demonstrates integration of frontend, backend, and third-party communication (WhatsApp).
 
@@ -39,7 +39,7 @@ Frontend (Vercel)
    ↓ API call
 Backend (Render)
    ↓
-Generates WhatsApp message → opens wa.me link
+Generates order message via Whatsapp / Telegram → opens wa.me / t.me link
 
 ---
 
@@ -79,5 +79,9 @@ Admin dashboard
 Order history storage (DB)
 Authentication system
 
+### Recent Enhancements
+Added order option via Telegram
+
 Author
 Ravivarma Singaravelu
+```
