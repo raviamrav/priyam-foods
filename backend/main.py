@@ -112,7 +112,7 @@ def create_order_endpoint(order: Order):
         return {"error": order_details["error"]}
 
     admin_whatsapp_number = "+4915207287460"  # Replace with actual admin number
-    admin_telegram_number = "4915207287460" # without '+' for tg://
+    admin_telegram_number = "+4915207287460" # without '+' for tg://
     
     message = generate_order_message(order_details, order.customer)
     encoded_message = urllib.parse.quote(message)
@@ -121,13 +121,10 @@ def create_order_endpoint(order: Order):
     mobile_contact_link = ""
     
     if order.customer.contact_platform == "telegram":
-        # Desktop web.telegram.org link
         tgaddr = urllib.parse.quote(f"tg://resolve?phone={admin_telegram_number}&text={encoded_message}", safe="")
         desktop_contact_link = f"https://web.telegram.org/a/#?tgaddr={tgaddr}"
-        # Mobile t.me link
         mobile_contact_link = f"https://t.me/+{admin_telegram_number}?text={encoded_message}"
     else:
-        # WhatsApp works fine with wa.me for both
         wa_link = f"https://wa.me/{admin_whatsapp_number}?text={encoded_message}"
         desktop_contact_link = wa_link
         mobile_contact_link = wa_link
