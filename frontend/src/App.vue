@@ -6,6 +6,7 @@ const lastName = ref("");
 const whatsapp = ref("");
 const email = ref("");
 const address = ref("");
+const contactPlatform = ref("whatsapp");
 
 interface Item {
   name: string;
@@ -49,7 +50,7 @@ async function storeVCF() {
   const vcfContent = `BEGIN:VCARD
 VERSION:3.0
 FN:Priyam Foods
-TEL;TYPE=CELL:+919840606082
+TEL;TYPE=CELL:+4915207287460
 EMAIL:priyam_foods@gmail.com
 END:VCARD`;
   const blob = new Blob([vcfContent], { type: "text/vcard" });
@@ -76,7 +77,7 @@ async function submitOrder() {
   }));
 
   if (!whatsapp.value) {
-    alert("Error: Please enter your whatsapp number.");
+    alert(`Error: Please enter your ${contactPlatform.value} number.`);
     return;
   }
   const customer = {
@@ -85,6 +86,7 @@ async function submitOrder() {
     whatsapp_number: whatsapp.value,
     address: address.value,
     email: email.value,
+    contact_platform: contactPlatform.value,
   };
 
   const order = {
@@ -106,18 +108,30 @@ async function submitOrder() {
   //alert(JSON.stringify(data));
   console.log(JSON.stringify(data));
 
-  if (data.whatsapp_link) {
+  if (data.desktop_contact_link || data.mobile_contact_link || data.whatsapp_link) {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    let linkToOpen = data.whatsapp_link; // fallback
+    
+    if (isMobile && data.mobile_contact_link) {
+      linkToOpen = data.mobile_contact_link;
+    } else if (!isMobile && data.desktop_contact_link) {
+      linkToOpen = data.desktop_contact_link;
+    } else if (data.contact_link) {
+      linkToOpen = data.contact_link;
+    }
+    
+    const platformName = contactPlatform.value === 'telegram' ? 'Telegram' : 'WhatsApp';
     const confirmOpen = confirm(
       "Your order is ready!\n\n" +
-        "* Click with the WhatsApp icon to Add our contact to your WhatsApp contacts and continue.\n" +
-        "Copy the below order text (block and copy) and paste it manually in WhatsApp, incase If the message disappears/empty:\n=======\n" +
+        `* Click with the ${platformName} icon to Add our contact to your ${platformName} contacts and continue.\n` +
+        `Copy the below order text (block and copy) and paste it manually in ${platformName}, incase If the message disappears/empty:\n=======\n` +
         data.message,
     );
     if (confirmOpen) {
-      window.open(data.whatsapp_link, "_blank");
+      window.open(linkToOpen, "_blank");
     }
   } else {
-    alert("Couldn't open whatsapp");
+    alert(`Couldn't open ${contactPlatform.value}`);
   }
 
   console.log(data);
@@ -211,22 +225,34 @@ async function submitOrder() {
             />
           </div>
 
+          <div class="flex items-center gap-6 mb-2 mt-4 px-2">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" value="whatsapp" v-model="contactPlatform" class="w-5 h-5 text-green-500 focus:ring-green-500" />
+              <span class="font-medium text-gray-700">WhatsApp</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" value="telegram" v-model="contactPlatform" class="w-5 h-5 text-blue-500 focus:ring-blue-500" />
+              <span class="font-medium text-gray-700">Telegram</span>
+            </label>
+          </div>
+
           <div class="flex items-center gap-2">
             <input
               v-model="whatsapp"
               type="tel"
-              placeholder="WhatsApp Number"
+              :placeholder="contactPlatform === 'whatsapp' ? 'WhatsApp Number' : 'Telegram Number'"
               class="flex-1 min-w-0 p-4 rounded-xl border-gray-200 border focus:ring-2 focus:ring-orange-500 outline-none"
             />
             <div
-              class="bg-green-100 rounded-xl cursor-pointer hover:bg-green-200 transition items-center justify-center"
+              v-if="contactPlatform === 'whatsapp'"
+              class="bg-green-100 rounded-xl cursor-pointer hover:bg-green-200 transition items-center justify-center px-3"
               @click="storeVCF"
               title="Save Store Contact"
             >
-              <span class="text-xs">⬇️ Store</span>
+              <span class="text-xs block text-center mt-1">⬇️ Store</span>
               <img
                 src="./assets/priyamfoods_vcf.jpg"
-                class="h-full w-full max-h-[40px] object-contain"
+                class="h-full w-full max-h-[30px] object-contain mx-auto"
               />
             </div>
           </div>
@@ -244,21 +270,23 @@ async function submitOrder() {
           ></textarea>
           <div class="mt-5 mb-3 text-sm text-gray-600 italic">
             <span class="font-bold text-red-500">* </span>
-            <span class="font-bold text-blue-500"
-              >Download our contact vCard</span
-            >
-            by clicking the WhatsApp icon. This will allow you to easily find us
-            on WhatsApp and place your order. After filling in your details and
-            selecting your items, click the "Send Order via WhatsApp" button to
-            send your order directly to our WhatsApp. We will confirm your order
-            and delivery details through WhatsApp. Thank you for choosing Priyam
+            <template v-if="contactPlatform === 'whatsapp'">
+              <span class="font-bold text-blue-500">Download our contact vCard</span>
+              by clicking the Store icon. This will allow you to easily find us
+              on WhatsApp and place your order. 
+            </template>
+            Save our contact in your phone/Telegram for smoother experience (+4915207287460 | Priyam Foods).
+            After filling in your details and
+            selecting your items, click the "Send Order" button to
+            send your order directly to our {{ contactPlatform === 'whatsapp' ? 'WhatsApp' : 'Telegram' }}. We will confirm your order
+            and delivery details through {{ contactPlatform === 'whatsapp' ? 'WhatsApp' : 'Telegram' }}. Thank you for choosing Priyam
             Foods!
           </div>
           <button
             @click="submitOrder"
             class="w-full py-5 bg-orange-600 hover:bg-orange-700 text-white text-xl font-bold rounded-2xl shadow-lg transform active:scale-95 transition-all"
           >
-            🚀 Send Order via WhatsApp
+            🚀 Send Order via {{ contactPlatform === 'whatsapp' ? 'WhatsApp' : 'Telegram' }}
           </button>
         </div>
       </div>

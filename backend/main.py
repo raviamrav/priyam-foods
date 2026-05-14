@@ -30,6 +30,7 @@ class Customer(BaseModel):
     whatsapp_number: str
     address: str
     email: EmailStr
+    contact_platform: str = "whatsapp"
 
 class Order(BaseModel):
     customer: Customer
@@ -110,29 +111,43 @@ def create_order_endpoint(order: Order):
     if "error" in order_details:
         return {"error": order_details["error"]}
 
-    admin_whatsapp_number = "919840606082"  # Replace with actual admin number
-    whatsapp_message = generate_whatsapp_message(order_details, order.customer)
-    wa_link = generate_whatsapp_link(admin_whatsapp_number, whatsapp_message)
+    admin_whatsapp_number = "+4915207287460"  # Replace with actual admin number
+    admin_telegram_number = "4915207287460" # without '+' for tg://
+    
+    message = generate_order_message(order_details, order.customer)
+    encoded_message = urllib.parse.quote(message)
+    
+    desktop_contact_link = ""
+    mobile_contact_link = ""
+    
+    if order.customer.contact_platform == "telegram":
+        # Desktop web.telegram.org link
+        tgaddr = urllib.parse.quote(f"tg://resolve?phone={admin_telegram_number}&text={encoded_message}", safe="")
+        desktop_contact_link = f"https://web.telegram.org/a/#?tgaddr={tgaddr}"
+        # Mobile t.me link
+        mobile_contact_link = f"https://t.me/+{admin_telegram_number}?text={encoded_message}"
+    else:
+        # WhatsApp works fine with wa.me for both
+        wa_link = f"https://wa.me/{admin_whatsapp_number}?text={encoded_message}"
+        desktop_contact_link = wa_link
+        mobile_contact_link = wa_link
 
     return {
-        #"order_details": order_details,
-        "message": whatsapp_message,
-        "whatsapp_link": wa_link
+        "message": message,
+        "whatsapp_link": mobile_contact_link, # keep for backward compatibility
+        "contact_link": mobile_contact_link,  # default to mobile if not checked
+        "desktop_contact_link": desktop_contact_link,
+        "mobile_contact_link": mobile_contact_link
     }
 
-def generate_whatsapp_message(order_details, customer: Customer):
+def generate_order_message(order_details, customer: Customer):
+    platform_name = "Telegram" if customer.contact_platform == "telegram" else "WhatsApp"
     message = "Hallo, \n* My Order Details:*\n🛒"
     for item in order_details["orders"]:
         message += f"{item['quantity']} x {item['item']} | {item['quantity']} x ${item['price']:.2f} = ${item['total']:.2f}\n"
     message += f"Total Price: ${order_details['total_price']:.2f}\n\n"
     message += f"🧾 *Name: {customer.first_name} {customer.last_name}*\n"
-    message += f"📞 WhatsApp: {customer.whatsapp_number}\n\n"
+    message += f"📞 {platform_name}: {customer.whatsapp_number}\n\n"
     message += f"📧 Email: {customer.email}\n"
     message += f"🏠 Address: {customer.address}\n"
     return message
-
-def generate_whatsapp_link(number, message):
-    # message = generate_whatsapp_message(order_details, customer)
-    encoded_message = urllib.parse.quote(message)
-    wa_link = f"https://wa.me/{number}?text={encoded_message}"
-    return wa_link

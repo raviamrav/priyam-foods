@@ -53,12 +53,22 @@ Generates WhatsApp message → opens wa.me link
 
 ## How to Run Locally
 
-### Backend
 ```bash
+Through Docker:
+docker-compose up --build
+* Make sure Docker Desktop is installed & running.
+(normally check the app at http://localhost:4173/ or Docker assigns a random available port)
+
+or
+
+Manually Through Python:
+
+Backend:
 cd backend
 pip install -r requirements.txt
 uvicorn main:app --reload
-Frontend
+
+Frontend:
 cd frontend
 npm install
 npm run dev
