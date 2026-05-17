@@ -84,6 +84,7 @@ Frontend:
    cd frontend
    npm install
    npm run dev
+   open in browser : http://localhost:5173/ (chk port number - usually 5173) 
 ```
 
 ### Future Improvements
