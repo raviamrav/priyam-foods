@@ -87,10 +87,12 @@ Frontend:
 ```
 
 ### Future Improvements
+```
 Payment integration
 Admin dashboard
 Order history storage (DB)
 Authentication system
+```
 
-Author
+### Author
 Ravivarma Singaravelu
