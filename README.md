@@ -64,14 +64,27 @@ or
 Manually Through Python:
 
 Backend:
-cd backend
-pip install -r requirements.txt
-uvicorn main:app --reload
+   cd backend
+   # Delete old venv
+   Remove-Item -Recurse -Force venv
+
+   # Create fresh venv using your current Python
+   python -m venv venv
+
+   # Activate
+   .\venv\Scripts\activate
+
+   # Install dependencies
+   pip install -r requirements.txt
+
+   # Run
+   uvicorn main:app --reload
 
 Frontend:
-cd frontend
-npm install
-npm run dev
+   cd frontend
+   npm install
+   npm run dev
+```
 
 ### Future Improvements
 Payment integration
