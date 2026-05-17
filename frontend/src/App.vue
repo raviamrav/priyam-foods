@@ -40,7 +40,8 @@ onMounted(async () => {
     }));
   } catch (error) {
     console.error("Error fetching menu:", error);
-    alert("Failed to load menu. Please try again later.");
+    // alert("Failed to load menu. Please try again later.");
+    alert("⚠️ Service temporarily unavailable — monthly hosting limit reached.\nFor a live demo, please contact: raviamrav@yahoo.com");
   } finally {
     isLoading.value = false;
   }
