@@ -93,6 +93,8 @@ Admin dashboard
 Order history storage (DB)
 Authentication system
 ```
+### App Screen
+<img width="324" height="854" alt="image" src="https://github.com/user-attachments/assets/be629c10-de1b-47b5-a0c0-a4fd827c7ab8" />
 
 ### Author
 Ravivarma Singaravelu
