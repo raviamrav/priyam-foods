@@ -106,8 +106,7 @@ async function submitOrder() {
   });
 
   const data = await response.json();
-  //alert(JSON.stringify(data));
-  console.log(JSON.stringify(data));
+  await navigator.clipboard.writeText(data.message)
 
   if (data.desktop_contact_link || data.mobile_contact_link || data.whatsapp_link) {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -122,15 +121,9 @@ async function submitOrder() {
     }
     
     const platformName = contactPlatform.value === 'telegram' ? 'Telegram' : 'WhatsApp';
-    const confirmOpen = confirm(
-      "Your order is ready!\n\n" +
-        `* Click with the ${platformName} icon to Add our contact to your ${platformName} contacts and continue.\n` +
-        `Copy the below order text (block and copy) and paste it manually in ${platformName}, incase If the message disappears/empty:\n=======\n` +
-        data.message,
-    );
-    if (confirmOpen) {
-      window.open(linkToOpen, "_blank");
-    }
+    alert("Order copied to clipboard.\n\n" +`Opening ${platformName} to place your order. If it doesn't open, please paste the message manually in your ${platformName} chat with us.`);
+    window.open(linkToOpen, "_blank");
+
   } else {
     alert(`Couldn't open ${contactPlatform.value}`);
   }

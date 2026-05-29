@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from typing import List
 import urllib.parse
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 app = FastAPI()
 
@@ -111,9 +114,9 @@ def create_order_endpoint(order: Order):
     if "error" in order_details:
         return {"error": order_details["error"]}
 
-    admin_whatsapp_number = "+4915207287460"  # Replace with actual admin number
-    admin_telegram_number = "+4915207287460" # without '+' for tg://
-    
+    admin_whatsapp_number = os.getenv("ADMIN_WHATSAPP_NUMBER")
+    admin_telegram_number = os.getenv("ADMIN_TELEGRAM_NUMBER")
+
     message = generate_order_message(order_details, order.customer)
     encoded_message = urllib.parse.quote(message)
     
@@ -141,8 +144,8 @@ def generate_order_message(order_details, customer: Customer):
     platform_name = "Telegram" if customer.contact_platform == "telegram" else "WhatsApp"
     message = "Hallo, \n* My Order Details:*\n🛒"
     for item in order_details["orders"]:
-        message += f"{item['quantity']} x {item['item']} | {item['quantity']} x ${item['price']:.2f} = ${item['total']:.2f}\n"
-    message += f"Total Price: ${order_details['total_price']:.2f}\n\n"
+        message += f"{item['quantity']} x {item['item']} | {item['quantity']} x €{item['price']:.2f} = €{item['total']:.2f}\n"
+    message += f"Total Price: €{order_details['total_price']:.2f}\n\n"
     message += f"🧾 *Name: {customer.first_name} {customer.last_name}*\n"
     message += f"📞 {platform_name}: {customer.whatsapp_number}\n\n"
     message += f"📧 Email: {customer.email}\n"

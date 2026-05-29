@@ -39,7 +39,7 @@ async function storeVCF() {
   const vcfContent = `BEGIN:VCARD
 VERSION:3.0
 FN:Priyam Foods
-TEL;TYPE=CELL:+919840606082
+TEL;TYPE=CELL:+4915207287460
 EMAIL:priyam_foods@gmail.com
 END:VCARD`;
   const blob = new Blob([vcfContent], { type: "text/vcard" });
