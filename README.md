@@ -54,6 +54,11 @@ Generates WhatsApp message → opens wa.me link
 ## How to Run Locally
 
 ```bash
+Add .env file in backend with admin phone number to receive orders
+create priyam-foods/backed/.env
+ADMIN_WHATSAPP_NUMBER=+4912345678910
+ADMIN_TELEGRAM_NUMBER=+4912345678910
+
 Through Docker:
 docker-compose up --build
 * Make sure Docker Desktop is installed & running.
