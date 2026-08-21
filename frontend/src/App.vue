@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { Analytics } from '@vercel/analytics/vue';
 
 const firstName = ref("");
 const lastName = ref("");
@@ -309,5 +310,6 @@ async function submitOrder() {
         </div>
       </div>
     </footer>
+    <Analytics />
   </div>
 </template>
